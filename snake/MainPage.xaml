@@ -1,0 +1,16 @@
+﻿<Page
+    x:Class="snake.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:snake"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Canvas Name="MyCanvas" Background="White" HorizontalAlignment="Left" Height="412" Margin="10,10,0,0" VerticalAlignment="Top" Width="748">
+            <TextBlock x:Name="tbPoints" Canvas.Left="603" TextWrapping="Wrap" Text="Points: 0" Canvas.Top="10" FontSize="22" Height="63" Width="135"/>
+            <TextBlock x:Name="tbGameOver" Visibility="Collapsed" Canvas.Left="286" TextWrapping="Wrap" Text="Game Over!" Canvas.Top="147" Height="71" Width="221" FontSize="36"/>
+        </Canvas>
+    </Grid>
+</Page>
