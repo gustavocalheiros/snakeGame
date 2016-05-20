@@ -5,12 +5,13 @@
     xmlns:local="using:snake"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Height="410.847" Width="602.034">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Canvas Name="MyCanvas" Background="White" HorizontalAlignment="Left" Height="412" Margin="10,10,0,0" VerticalAlignment="Top" Width="748">
-            <TextBlock x:Name="tbPoints" Canvas.Left="603" TextWrapping="Wrap" Text="Points: 0" Canvas.Top="10" FontSize="22" Height="63" Width="135"/>
-            <TextBlock x:Name="tbGameOver" Visibility="Collapsed" Canvas.Left="286" TextWrapping="Wrap" Text="Game Over!" Canvas.Top="147" Height="71" Width="221" FontSize="36"/>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="0,0,667,301">
+        <Canvas Name="MyCanvas" Background="Gray" HorizontalAlignment="Left" Height="153" Margin="10,10,-215,-53" VerticalAlignment="Top" Width="205">
+            <TextBlock x:Name="tbPoints" Canvas.Left="438" TextWrapping="Wrap" Text="Points: 0" Canvas.Top="10" FontSize="22" Height="63" Width="135"/>
+            <TextBlock x:Name="children" Canvas.Left="438" TextWrapping="Wrap" Text="child:" Canvas.Top="80" FontSize="22" Height="63" Width="135"/>
+            <TextBlock x:Name="tbGameOver" Visibility="Collapsed"  Canvas.Left="178" TextWrapping="Wrap" Text="Game Over!" Canvas.Top="161" Height="71" Width="221" FontSize="36"/>
         </Canvas>
     </Grid>
 </Page>
