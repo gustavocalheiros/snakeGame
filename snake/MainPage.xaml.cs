@@ -12,12 +12,7 @@ namespace snake
         public MainPage()
         {
             this.InitializeComponent();
-            game = new GamePlay(this, MyCanvas);
-
-            MyCanvas.Children.Add(game.snake.First());
-            MyCanvas.Children.Add(game.food.FoodRect);
-
-            Window.Current.CoreWindow.KeyDown += game.handleKeyPress;
+            setUpCanvasAndEvents();
         }
         
         public void updateUI()
@@ -35,7 +30,34 @@ namespace snake
         public void gameOver()
         {
             tbGameOver.Visibility = Visibility.Visible;
-            //gameTimer.Stop();
+        }
+
+        private void onClick(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            cleanCanvasAndEvents();
+            setUpCanvasAndEvents();
+        }
+
+        private void cleanCanvasAndEvents()
+        {
+            tbGameOver.Visibility = Visibility.Collapsed;
+
+            foreach (Line l in game.snake)
+            {
+                MyCanvas.Children.Remove(l);
+            }
+            MyCanvas.Children.Remove(game.food.FoodRect);
+            Window.Current.CoreWindow.KeyDown -= game.handleKeyPress;
+        }
+
+        private void setUpCanvasAndEvents()
+        {
+            game = new GamePlay(this, MyCanvas);
+
+            MyCanvas.Children.Add(game.snake.First());
+            MyCanvas.Children.Add(game.food.FoodRect);
+
+            Window.Current.CoreWindow.KeyDown += game.handleKeyPress;
         }
     }
 }

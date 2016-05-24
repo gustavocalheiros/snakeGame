@@ -13,5 +13,7 @@
             <TextBlock x:Name="children" Canvas.Left="438" TextWrapping="Wrap" Text="child:" Canvas.Top="80" FontSize="22" Height="63" Width="135"/>
             <TextBlock x:Name="tbGameOver" Visibility="Collapsed"  Canvas.Left="178" TextWrapping="Wrap" Text="Game Over!" Canvas.Top="161" Height="71" Width="221" FontSize="36"/>
         </Canvas>
+        <Button x:Name="button" Content="restart" HorizontalAlignment="Left" Height="112" Margin="199,254,-409,-256" VerticalAlignment="Top" Width="210" Tapped="onClick"/>
+
     </Grid>
 </Page>
