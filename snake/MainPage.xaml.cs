@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
-using Windows.Foundation;
+using Windows.Storage;
+using Windows.System;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Shapes;
 
 namespace SnakeGame
@@ -12,13 +14,31 @@ namespace SnakeGame
     {
         private GamePlay game;
 
+        private const string ARROW_LEFT = "ms-appx:///Assets/setaesquerda.jpg";
+        private const string ARROW_UP = "ms-appx:///Assets/setacima.jpg";
+        private const string ARROW_DOWN = "ms-appx:///Assets/setabaixo.jpg";
+        private const string ARROW_RIGHT = "ms-appx:///Assets/setadireita.jpg";
+
         public MainPage()
         {
             this.InitializeComponent();
 
             textBox.Text = "\u25BC \u25BC CONTROL AREA \u25BC \u25BC";
 
-            
+            showInstructionsAndStart();
+        }
+
+        private async void showInstructionsAndStart()
+        {
+            MessageDialog alert = new MessageDialog(
+                "Hi! \n" + 
+                "Use the \"CONTROL AREA\" (in light blue) to control the snake.  \n" + 
+                "You should tap (or click) and drag in the direction you want the snake to to go.\n" + 
+                "e.g.: Tap on the top of the CONTROL AREA and drag your finger (or mouse) until the bottom of it will make the snake go down. \n"+
+                "You can still use the arrows to play.\n" +
+                "GOOD LUCK!!!", "Game Instructions");
+
+            await alert.ShowAsync();
             setUp();
         }
 
@@ -32,6 +52,13 @@ namespace SnakeGame
             Window.Current.CoreWindow.KeyDown += game.handleKeyPress;
             tapArea.PointerPressed += game.pointerPressed;
             tapArea.PointerReleased += game.pointerReleased;
+
+            var localSettings = ApplicationData.Current.LocalSettings;
+
+            if (localSettings.Values["record"] == null)
+                localSettings.Values["record"] = 0;
+
+            tbRecord.Text = "Record: " + localSettings.Values["record"];
         }
         
 
@@ -48,14 +75,20 @@ namespace SnakeGame
             Window.Current.CoreWindow.KeyDown -= game.handleKeyPress;
             tapArea.PointerPressed -= game.pointerPressed;
             tapArea.PointerReleased -= game.pointerReleased;
-        }
-
-        
+        }        
 
         public void updateUI()
         {
-            //children.Text = "children: " + MyCanvas.Children.Count + " turns: " + game.snake.turns.Count;
             tbPoints.Text = "Points: " + game.points;
+
+            var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            string str = localSettings.Values["record"].ToString();
+
+            //update record
+            if (Int32.Parse(str) < game.points)
+            { 
+                localSettings.Values["record"] = game.points;
+            }
         }
 
         public void repositionElement(Shape element, double x, double y)
@@ -66,38 +99,29 @@ namespace SnakeGame
         
         public void gameOver()
         {
+            //cleanUp();
             tbGameOver.Visibility = Visibility.Visible;
         }
 
-        public void startAnimation()
+        // Arrow fade animation.
+        public void startAnimation(VirtualKey key)
         {
-            //image.Visibility = Visibility.Collapsed;
-            //image.Visibility = Visibility.Visible;
-            //image.Opacity = 1;
-
-            //Storyboard storyboard = new Storyboard();
-            //Duration duration = new Duration(TimeSpan.FromSeconds(2));
-
-            //storyboard.Duration = duration;
-            ////Duration duration = new Duration(TimeSpan.FromSeconds(2));
-
-            //FadeOutThemeAnimation fadeOut = new FadeOutThemeAnimation();
-            //DoubleAnimation scalex = new DoubleAnimation()
-            //{
-            //    From = 0,
-            //    To = 8,
-            //    AutoReverse = true,
-            //    Duration = TimeSpan.FromSeconds(2)
-            //};
-
-            //fadeOut.Duration = duration;
-            //storyboard.Children.Add(fadeOut);
-            //Storyboard.SetTarget(fadeOut, image);
-            //Storyboard.SetTargetProperty(fadeOut, "Opacity");
-
-            //storyboard.Seek(TimeSpan.Zero);
-            //storyboard.Begin();
-            Storyboard.SetTargetName("image");
+            switch(key)
+            {
+                case VirtualKey.Up:
+                    image.Source = new BitmapImage(new Uri(ARROW_UP));
+                    break;
+                case VirtualKey.Down:
+                    image.Source = new BitmapImage(new Uri(ARROW_DOWN));
+                    break;
+                case VirtualKey.Left:
+                    image.Source = new BitmapImage(new Uri(ARROW_LEFT));
+                    break;
+                case VirtualKey.Right:
+                    image.Source = new BitmapImage(new Uri(ARROW_RIGHT));
+                    break;
+            }            
+            
             fade.Begin();            
         }
 

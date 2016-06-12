@@ -57,7 +57,7 @@ namespace SnakeGame
         {
             // is the key an arrow?
             if (newKey >= VirtualKey.Left && newKey <= VirtualKey.Down)
-                return hasDirectionChanged(key);
+                return hasDirectionChanged(newKey);
 
             return false;
         }
@@ -90,8 +90,10 @@ namespace SnakeGame
             mainPage.updateUI();
         }
 
+        // keyboard handling
         public void handleKeyPress(CoreWindow s, KeyEventArgs e)
         {
+            //is arrow?
             if (isKeyValid(e.VirtualKey))
             {
                 key = e.VirtualKey;
@@ -143,7 +145,7 @@ namespace SnakeGame
         }
 
         // Moves head and tail. 
-        // OBS: if has eaten food (snake.grow == false), tail does is not moved.
+        // OBS: if has eaten food (snake.grow == true), tail does is not moved.
         public void snakeMove(VirtualKey key)
         {
             if (!snake.grow)
@@ -186,11 +188,39 @@ namespace SnakeGame
             }
             else
             {
+                double xLarge, xSmall, yLarge, ySmall;
+
                 // colision itself
                 for (int i = 0; i < snake.Count - 2; i++)
                 {
-                    if ((head.X2 <= snake[i].X2 && head.X2 >= snake[i].X1) &&
-                        (head.Y2 <= snake[i].Y2 && head.Y2 >= snake[i].Y1))
+                    //adjust values for comparison regardless of the snake's direction in the axis.
+                    // X axis
+                    if(snake[i].X2 > snake[i].X1)
+                    {
+                        xLarge = snake[i].X2;
+                        xSmall = snake[i].X1;
+                    }
+                    else
+                    {
+                        xSmall = snake[i].X2;
+                        xLarge = snake[i].X1;
+                    }
+
+                    // Y axis
+                    if (snake[i].Y2 > snake[i].Y1)
+                    {
+                        yLarge = snake[i].Y2;
+                        ySmall = snake[i].Y1;
+                    }
+                    else
+                    {
+                        ySmall = snake[i].Y2;
+                        yLarge = snake[i].Y1;
+                    }
+
+                    //comparison
+                    if ((head.X2 <= xLarge && head.X2 >= xSmall) &&
+                        (head.Y2 <= yLarge && head.Y2 >= ySmall))                        
                     {
                         return true;
                     }
@@ -213,6 +243,7 @@ namespace SnakeGame
                 (head.Y2 <= y2 && head.Y2 >= y1));
         }
 
+        // touch released! compare with first position to calculate new direction.
         public void pointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             Point endPointClick = e.GetCurrentPoint(null).Position;
@@ -233,10 +264,11 @@ namespace SnakeGame
                 key = newKey;
                 Line l = snake.changeDirection(key);
                 MyCanvas.Children.Add(l);
-                mainPage.startAnimation();
+                mainPage.startAnimation(key);
             }
         }
 
+        // touch pressed! get position and save
         public void pointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             startPointClick = e.GetCurrentPoint(null).Position;

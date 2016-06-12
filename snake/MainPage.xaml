@@ -10,8 +10,9 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="0,0,667,301">
         <Canvas Name="gameCanvas" Background="Gray" HorizontalAlignment="Left" Height="153" Margin="10,10,-215,-53" VerticalAlignment="Top" Width="205"/>
         <TextBlock x:Name="tbPoints" Canvas.Left="438" TextWrapping="Wrap" Text="Points: 0" FontSize="22" Height="63" Margin="470,10,-654,86"/>
-        <Rectangle Name="tapArea" Height="283" Margin="276,163,-654,-287" VerticalAlignment="Top" Fill="LightSteelBlue" Opacity="10"/>
-        <Image x:Name="image" Visibility="Visible" HorizontalAlignment="Center" Height="283" Margin="392,163,-570,-287" VerticalAlignment="Center" Width="198" Source="Assets/setabaixo.jpg" >
+        <TextBlock x:Name="tbRecord" Canvas.Left="438" TextWrapping="Wrap" Text="record:" FontSize="22" Margin="469,61,-655,40"/>
+
+        <Image x:Name="image" Visibility="Visible" Opacity="0" HorizontalAlignment="Center" Height="234" Margin="392,163,-570,-238" VerticalAlignment="Center" Width="198" Source="Assets/setabaixo.jpg" >
             <Image.Resources>
                 <Storyboard x:Name="fade">
                     <DoubleAnimation x:Name="animation" From="1" To="0" Storyboard.TargetProperty="Opacity" 
@@ -24,9 +25,10 @@
                 </Storyboard>
             </Image.Resources>
         </Image>
+        <Rectangle Name="tapArea" Height="283" Margin="276,163,-654,-287" VerticalAlignment="Top" Fill="LightSteelBlue" Opacity="0.5"/>
         <Button x:Name="button" Content="restart" HorizontalAlignment="Left" Height="112" Margin="10,239,-200,-192" VerticalAlignment="Top" Width="210" Tapped="onClickRestart"/>
         <TextBlock x:Name="tbGameOver" Visibility="Collapsed" Canvas.Left="178" TextWrapping="Wrap" Text="Game Over!" FontSize="36" Margin="199,163,-451,-124"/>
         <TextBlock x:Name="textBox" Margin="276,122,-654,0" TextAlignment="Center" TextWrapping="Wrap" Text="contro area"  Height="32" Width="398" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-               
+
     </Grid>
 </Page>
